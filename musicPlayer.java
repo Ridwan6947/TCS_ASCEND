@@ -35,9 +35,9 @@ public class musicPlayer {
         int totalCount = 0;
         int count = 0;
         
-        for (Music music : arr) {
-            if (music.getCount() > target) {
-                totalCount += music.getCount();
+        for(int i = 0 ; i < arr.length ; i++){
+            if(arr[i].getCount() > target){
+                totalCount += arr[i].getCount();
                 count++;
             }
         }
@@ -54,9 +54,7 @@ public class musicPlayer {
             }
         }
         Music[] newArr = new Music[ans.size()];
-        for(int i = 0 ; i < ans.size() ; i++){
-            newArr[i] = ans.get(i);
-        }
+        ans.toArray(newArr);
 
         for(int i = 0 ; i < newArr.length-1 ; i++){
             for(int j = 0 ; j < newArr.length-1 ; j++){
