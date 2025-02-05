@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="login-page">
+        <div class="form">
+          <form class="register-form" id="registration-form">
+            <input type = "text" id = "name" name = "name" placeholder = "Enter Customer name" required>
+            <input type = "text" id = "email" name = "email" placeholder = "Enter Customer Email" required>
+            <input type = "password" id = "password" name = "password" placeholder = "Enter Password" required>
+            <input type = "text" id = "address" name = "address" placeholder = "Enter Customer Address" required>
+            <input type = "text" id = "contact" name = "contact" placeholder = "Enter Customer Contact" required>
+            <button type = "submit">Register</button>
+            <p class="message">Already registered? <a href="#">Sign In</a></p>
+          </form>
+          <form class="login-form">
+            <input type="text" id="login-email" placeholder="email"/>
+            <input type="password" id="login-password" placeholder="password"/>
+            <button type="submit">login</button>
+            <p class="message">Not registered? <a href="#">Create an account</a></p>
+          </form>
+          <div id="acknowledgment" style="display: none;">
+            <p>User registered successfully!</p>
+            <p>Your Customer ID : <span id="customer-id"></span></p>
+          </div>
+        </div>
+      </div>
+</body>
+</html>
+
+  
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="script.js"></script>
+  
