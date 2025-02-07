@@ -3,37 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Online Grocery</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    <div class="login-page">
+    <!-- Login and Registration Page -->
+    <div class="login-page" id="loginPage">
         <div class="form">
-          <form class="register-form" id="registration-form">
-            <input type = "text" id = "name" name = "name" placeholder = "Enter Customer name" required>
-            <input type = "text" id = "email" name = "email" placeholder = "Enter Customer Email" required>
-            <input type = "password" id = "password" name = "password" placeholder = "Enter Password" required>
-            <input type = "text" id = "address" name = "address" placeholder = "Enter Customer Address" required>
-            <input type = "text" id = "contact" name = "contact" placeholder = "Enter Customer Contact" required>
-            <button type = "submit">Register</button>
-            <p class="message">Already registered? <a href="#">Sign In</a></p>
-          </form>
-          <form class="login-form">
-            <input type="text" id="login-email" placeholder="email"/>
-            <input type="password" id="login-password" placeholder="password"/>
-            <button type="submit">login</button>
-            <p class="message">Not registered? <a href="#">Create an account</a></p>
-          </form>
-          <div id="acknowledgment" style="display: none;">
-            <p>User registered successfully!</p>
-            <p>Your Customer ID : <span id="customer-id"></span></p>
-          </div>
+            <div class="form-container">
+                <form id="registration-form" class="active">
+                    <input type="text" id="name" name="name" placeholder="Enter Customer name" required>
+                    <input type="text" id="email" name="email" placeholder="Enter Customer Email" required>
+                    <input type="password" id="password" name="password" placeholder="Enter Password" required>
+                    <input type="text" id="address" name="address" placeholder="Enter Customer Address" required>
+                    <input type="text" id="contact" name="contact" placeholder="Enter Customer Contact" required>
+                    <button type="submit">Register</button>
+                    <p class="message">Already registered? <a href="#" id="showLogin">Sign In</a></p>
+                </form>
+                
+                <form id="login-form">
+                    <input type="text" id="login-email" placeholder="email"/>
+                    <input type="password" id="login-password" placeholder="password"/>
+                    <button type="submit">login</button>
+                    <p class="message">Not registered? <a href="#" id="showRegister">Create an account</a></p>
+                </form>
+            </div>
+            <div id="acknowledgment" style="display: none;">
+                <p>User registered successfully!</p>
+                <p>Your Customer ID : <span id="customer-id"></span></p>
+            </div>
         </div>
-      </div>
+    </div>
+
+    <!-- Home Page -->
+    <div class="home-page" id="homePage" style="display: none;">
+        <div class="navbar">
+            <div class="nav-left">
+                <a onclick="navigate('home')"><i class="fas fa-home"></i> Home</a>
+            </div>
+            <div class="nav-right">
+                <a onclick="navigate('cart')" class="cart-link">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+                <button class="logout-btn" id="logout">Logout</button>
+            </div>
+        </div>
+        <div class="container" id="content">
+            <h1>Hello <span id="userName">User   </span>, Welcome to Online Grocery</h1>
+            <div class="items" id="storeItems"></div>
+        </div>
+        <div class="profile-container" id="profilePage" style="display:none;">
+            <h2>My Profile</h2>
+            <p>Name: <span id="userNameDisplay">John Doe</span></p>
+            <p>Phone: <span id="userPhone">123-456-7890</span></p>
+            <p>Email: <span id="userEmail">john@example.com</span></p>
+            <button onclick="editProfile()">Update</button>
+        </div>
+        <div class="cart-container" id="cartPage" style="display:none;">
+            <h2>Shopping Cart</h2>
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="cartItems">
+                </tbody>
+            </table>
+            <div class="cart-summary">
+                <h3>Cart Summary</h3>
+                <p>Total Amount: $<span id="totalAmount">0</span></p>
+                <button class="checkout-btn" onclick="checkout()">Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
-
-  
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="script.js"></script>
-  

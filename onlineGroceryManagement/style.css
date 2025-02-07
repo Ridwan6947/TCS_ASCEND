@@ -1,118 +1,336 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:300);
-  
-  .login-page {
-    width: 360px;
-    padding: 8% 0 0;
-    margin: auto;
-  }
-  .form {
+/* General Styles */
+body {
+  background: #f5f5f5;
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Login and Registration Page Styles */
+.login-page {
+  width: 360px;
+  padding: 8% 0 0;
+  margin: auto;
+}
+.form {
+  position: relative;
+  z-index: 1;
+  background: #FFFFFF;
+  max-width: 360px;
+  margin: 0 auto 100px;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+.form input {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+.form button {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #4CAF50;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.form button:hover {
+  background: #43A047;
+}
+.form .message {
+  margin: 15px 0 0;
+  color: #b3b3b3;
+  font-size: 12px;
+}
+.form .message a {
+  color: #4CAF50;
+  text-decoration: none;
+}
+#acknowledgment {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 10px;
+  margin-top: 15px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+/* Home Page Styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2c3e50;
+  padding: 15px 30px;
+}
+
+.nav-left a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.nav-left a:hover {
+  color: #3498db;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-left, .nav-right {
+  display: flex;
+  align-items: center;
+}
+
+.nav-left a, .cart-link {
+  color: #ecf0f1;
+}
+
+.cart-link {
+  position: relative;
+  text-decoration: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.cart-link:hover {
+  color: #e8f5e9;
+}
+
+.cart-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #e74c3c;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
+}
+
+.logout-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: #c0392b;
+}
+
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.cart-table th, .cart-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.cart-table th {
+  background-color: #2c3e50;
+  color: white;
+}
+
+.delete-icon {
+  color: #ff4444;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 18px;
+}
+
+.delete-icon:hover {
+  color: #cc0000;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  padding: 20px;
+}
+.item {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+.item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+.item-image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+.item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.item:hover .item-image img {
+  transform: scale(1.05);
+}
+.item-details {
+  padding: 20px;
+}
+.item h3 {
+  margin: 0 0 10px 0;
+  color: #2c3e50;
+  font-size: 1.4em;
+}
+.price {
+  color: #e74c3c;
+  font-size: 1.2em;
+  font-weight: bold;
+  margin: 10px 0;
+}
+.cart-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+.cart-items {
+  flex: 1;
+  margin-right: 20px;
+  max-width: 600px;
+}
+.cart-summary {
+  flex: 0.3;
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  min-width: 250px;
+  text-align: left;
+}
+.profile-container {
+  text-align: center;
+  padding: 20px;
+}
+.cart-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 15px;
+}
+.cart-controls button {
+  background: #3498db;
+  color: white;
+  border: none;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cart-controls button:hover {
+  background: #2980b9;
+}
+.quantity {
+  font-size: 1.2em;
+  color: #2c3e50;
+  min-width: 30px;
+  text-align: center;
+}
+
+/* Add these styles for form transitions */
+.form-container {
     position: relative;
-    z-index: 1;
-    background: #FFFFFF;
-    max-width: 360px;
-    margin: 0 auto 100px;
-    padding: 45px;
-    text-align: center;
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-  }
-  .form input {
-    font-family: "Roboto", sans-serif;
-    outline: 0;
-    background: #f2f2f2;
+    min-height: 400px;  /* Adjust based on your form height */
+}
+
+#login-form, #registration-form {
+    position: absolute;
     width: 100%;
-    border: 0;
-    margin: 0 0 15px;
-    padding: 15px;
-    box-sizing: border-box;
-    font-size: 14px;
-  }
-  .form button {
-    font-family: "Roboto", sans-serif;
-    text-transform: uppercase;
-    outline: 0;
-    background: #4CAF50;
-    width: 100%;
-    border: 0;
-    padding: 15px;
-    color: #FFFFFF;
-    font-size: 14px;
-    -webkit-transition: all 0.3 ease;
-    transition: all 0.3 ease;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease, transform 0.5s ease;
+    transform: translateX(50px);
+}
+
+#login-form.active, #registration-form.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+/* Add checkout button styles */
+.checkout-btn {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-size: 16px;
     cursor: pointer;
-  }
-  .form button:hover,.form button:active,.form button:focus {
-    background: #43A047;
-  }
-  .form .message {
-    margin: 15px 0 0;
-    color: #b3b3b3;
-    font-size: 12px;
-  }
-  .form .message a {
-    color: #4CAF50;
-    text-decoration: none;
-  }
-  .form .register-form {
-    display: none;
-  }
-  .container {
-    position: relative;
-    z-index: 1;
-    max-width: 300px;
-    margin: 0 auto;
-  }
-  .container:before, .container:after {
-    content: "";
-    display: block;
-    clear: both;
-  }
-  .container .info {
-    margin: 50px auto;
-    text-align: center;
-  }
-  .container .info h1 {
-    margin: 0 0 15px;
-    padding: 0;
-    font-size: 36px;
-    font-weight: 300;
-    color: #1a1a1a;
-  }
-  .container .info span {
-    color: #4d4d4d;
-    font-size: 12px;
-  }
-  .container .info span a {
-    color: #000000;
-    text-decoration: none;
-  }
-  .container .info span .fa {
-    color: #EF3B3A;
-  }
-  body {
-    background: #76b852; /* fallback for old browsers */
-    background: rgb(141,194,111);
-    background: linear-gradient(90deg, rgba(141,194,111,1) 0%, rgba(118,184,82,1) 50%);
-    font-family: "Roboto", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;      
-  }
-  .form input {
-    font-family: "Roboto", sans-serif;
-    outline: 0;
-    background: #f2f2f2;
+    transition: background-color 0.3s ease;
     width: 100%;
-    border: 0;
-    margin: 0 0 15px;
-    padding: 15px;
-    box-sizing: border-box;
-    font-size: 14px;
-  }
-  
-  #acknowledgment{
-    background-color: #d4edda;
-    color: #155724;
-    padding: 10px;
     margin-top: 15px;
+}
+
+.checkout-btn:hover {
+    background-color: #219a52;
+}
+
+/* Add notification styles */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #2ecc71;
+    color: white;
+    padding: 15px 25px;
     border-radius: 5px;
-    text-align: center;
-  }
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transform: translateX(200%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
+
+.notification.show {
+    transform: translateX(0);
+}
