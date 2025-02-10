@@ -45,9 +45,19 @@ body {
   font-size: 14px;
   transition: all 0.3s ease;
   cursor: pointer;
+  margin-bottom: 10px;
+}
+.form button.user-login {
+  margin-bottom: 15px;
+}
+.form button.admin-login {
+  background: #2c3e50;
 }
 .form button:hover {
   background: #43A047;
+}
+.form button.admin-login:hover {
+  background: #34495e;
 }
 .form .message {
   margin: 15px 0 0;
@@ -333,4 +343,216 @@ body {
 
 .notification.show {
     transform: translateX(0);
+}
+
+/* Admin Panel Styles */
+.admin-panel {
+    background: #f8f9fa;
+    min-height: 100vh;
+}
+
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.card h3 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 24px;
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.admin-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.admin-controls input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 200px;
+}
+
+.admin-controls button {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.admin-table th {
+    background: #2c3e50;
+    color: white;
+}
+
+.delete-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+#addProductForm {
+    background: white;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+#addProductForm input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.admin-tab {
+    padding: 20px;
+}
+
+/* Admin Panel Navbar Styles */
+.admin-panel .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2c3e50;
+    padding: 15px 30px;
+    margin-bottom: 20px;
+}
+
+.admin-panel .nav-left {
+    display: flex;
+    gap: 30px; /* Adds space between navigation items */
+}
+
+.admin-panel .nav-left a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.admin-panel .nav-left a:hover {
+    background-color: #34495e;
+}
+
+.admin-panel .nav-right {
+    display: flex;
+    align-items: center;
+}
+
+.admin-panel .logout-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.admin-panel .logout-btn:hover {
+    background-color: #c0392b;
+}
+
+/* Admin Panel Icon Styles */
+.admin-panel .nav-left a i {
+    margin-right: 8px;
+}
+
+.admin-panel .nav-left a.active {
+    background-color: #34495e;
+}
+
+.card-icon {
+    font-size: 2.5em;
+    color: #27ae60;
+    margin-bottom: 15px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px;
+}
+
+.card h3 {
+    margin: 10px 0;
+}
+
+.card p {
+    font-size: 28px;
+    color: #2c3e50;
+    font-weight: bold;
+    margin: 10px 0 0 0;
+}
+
+/* Add icon styles for action buttons */
+.delete-btn i {
+    margin-right: 5px;
+}
+
+.admin-controls button i {
+    margin-right: 5px;
+}
+
+/* Update search input styles */
+.admin-controls input {
+    padding: 10px 15px 10px 35px;
+    position: relative;
+}
+
+.admin-controls .search-wrapper {
+    position: relative;
+}
+
+.admin-controls .search-wrapper i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
 }

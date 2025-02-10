@@ -91,19 +91,30 @@ document.getElementById("registration-form").addEventListener("submit", async fu
     }
 });
 
-// Update login form handler to check localStorage
+// Update login form handler
 document.getElementById("login-form").addEventListener("submit", async function(event) {
     event.preventDefault();
     
     const email = document.getElementById("login-email").value.trim();
     const password = document.getElementById("login-password").value.trim();
     
+    // Check if it's admin login
+    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+        document.getElementById("loginPage").style.display = "none";
+        document.getElementById("adminPanel").style.display = "block";
+        showAdminTab('dashboard');
+        return;
+    }
+    
     try {
         // Check credentials in localStorage
         const users = JSON.parse(localStorage.getItem('users') || '[]');
         const user = users.find(u => u.email === email && u.password === password);
         
-        if(user){
+        if(user) {
+            // Store current user in localStorage
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            
             document.getElementById("loginPage").style.display = "none";
             document.getElementById("homePage").style.display = "block";
             document.getElementById("userName").innerText = user.name;
@@ -119,9 +130,11 @@ document.getElementById("login-form").addEventListener("submit", async function(
     }
 });
 
-// Logout functionality
+// Also update the logout function to clear currentUser
 document.getElementById("logout").addEventListener("click", function(event) {
     event.preventDefault();
+    localStorage.removeItem('currentUser'); // Clear current user
+    cart = {}; // Clear cart
     document.getElementById("homePage").style.display = "none";
     document.getElementById("loginPage").style.display = "block";
 });
@@ -130,22 +143,22 @@ document.getElementById("logout").addEventListener("click", function(event) {
 const items = [
     { 
         name: "Apple", 
-        price: 2,
+        price: 30,
         image: "https://images.unsplash.com/photo-1619546813926-a78fa6372cd2?w=500&q=80"
     },
     { 
         name: "Banana", 
-        price: 1,
+        price: 30,
         image: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=500&q=80"
     },
     { 
         name: "Carrot", 
-        price: 1.5,
+        price: 20,
         image: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?w=500&q=80"
     },
     { 
         name: "Tomato", 
-        price: 2.5,
+        price: 20,
         image: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=500&q=80"
     }
 ];
@@ -204,7 +217,7 @@ function displayItems() {
                 </div>
                 <div class="item-details">
                     <h3>${item.name}</h3>
-                    <p class="price">$${item.price.toFixed(2)}</p>
+                    <p class="price">Rs${item.price.toFixed(2)}</p>
                     <div class="cart-controls">
                         <button onclick="updateQuantity('${item.name}', -1)">-</button>
                         <span class="quantity">${quantity}</span>
@@ -291,6 +304,10 @@ function generateOrderId() {
     return 'ORD' + Math.random().toString(36).substr(2, 9).toUpperCase();
 }
 
+function calculateTotal() {
+    return Object.values(cart).reduce((total, item) => total + (item.price * item.quantity), 0);
+}
+
 function checkout() {
     if (Object.keys(cart).length === 0) {
         showNotification('Your cart is empty!');
@@ -298,19 +315,249 @@ function checkout() {
     }
 
     const orderId = generateOrderId();
-    const message = `Order placed successfully! Your order ID is: ${orderId}`;
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     
-    // Clear cart
+    if (!currentUser) {
+        showNotification('Please login to checkout!');
+        return;
+    }
+    
+    const order = {
+        orderId,
+        customerName: currentUser.name,
+        contact: currentUser.contact,
+        items: Object.values(cart),
+        total: calculateTotal(),
+        date: new Date().toISOString()
+    };
+
+    // Store order in localStorage
+    const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+    orders.push(order);
+    localStorage.setItem('orders', JSON.stringify(orders));
+
+    // Clear cart and show notification
     cart = {};
     displayItems();
+    showNotification(`Order placed successfully! Your order ID is: ${orderId}`);
     
-    // Show success message
-    showNotification(message);
-    
-    // Navigate back to home
     setTimeout(() => {
         navigate('home');
     }, 2000);
+}
+
+// Admin credentials
+const ADMIN_EMAIL = "ridwan@gmail.com";
+const ADMIN_PASSWORD = "Ridwan1211@#";
+
+// Admin login function
+function adminLogin() {
+    const email = document.getElementById("login-email").value;
+    const password = document.getElementById("login-password").value;
+
+    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+        document.getElementById("loginPage").style.display = "none";
+        document.getElementById("adminPanel").style.display = "block";
+        showAdminTab('dashboard'); // Show dashboard by default
+        updateDashboard();
+    } else {
+        alert("Invalid admin credentials!");
+    }
+}
+
+function adminLogout() {
+    document.getElementById("adminPanel").style.display = "none";
+    document.getElementById("loginPage").style.display = "block";
+}
+
+function showAdminTab(tab) {
+    // Hide all tabs first
+    document.getElementById('adminDashboard').style.display = 'none';
+    document.getElementById('adminProducts').style.display = 'none';
+    document.getElementById('adminOrders').style.display = 'none';
+    document.getElementById('adminCustomers').style.display = 'none';
+
+    // Remove active class from all nav items
+    document.querySelectorAll('.admin-panel .nav-left a').forEach(item => {
+        item.classList.remove('active');
+    });
+
+    // Add active class to clicked nav item
+    const activeNav = document.querySelector(`.admin-panel .nav-left a[onclick="showAdminTab('${tab}')"]`);
+    if (activeNav) activeNav.classList.add('active');
+
+    // Show selected tab and update its content
+    switch(tab) {
+        case 'dashboard':
+            document.getElementById('adminDashboard').style.display = 'block';
+            updateDashboard();
+            break;
+        case 'products':
+            document.getElementById('adminProducts').style.display = 'block';
+            displayProducts();
+            break;
+        case 'orders':
+            document.getElementById('adminOrders').style.display = 'block';
+            displayOrders();
+            break;
+        case 'customers':
+            document.getElementById('adminCustomers').style.display = 'block';
+            displayCustomers();
+            break;
+    }
+}
+
+function updateDashboard() {
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+    let totalSales = orders.reduce((sum, order) => sum + order.total, 0);
+
+    document.getElementById('totalOrders').textContent = orders.length;
+    document.getElementById('totalSales').textContent = totalSales.toFixed(2);
+    document.getElementById('totalCustomers').textContent = users.length;
+}
+
+function showAddProductForm() {
+    const form = document.getElementById('addProductForm');
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+}
+
+function addProduct(event) {
+    event.preventDefault();
+    const products = JSON.parse(localStorage.getItem('products') || '[]');
+    
+    const newProduct = {
+        id: 'PROD' + Math.random().toString(36).substr(2, 9).toUpperCase(),
+        name: document.getElementById('productName').value,
+        price: parseFloat(document.getElementById('productPrice').value),
+        image: document.getElementById('productImage').value
+    };
+
+    products.push(newProduct);
+    localStorage.setItem('products', JSON.stringify(products));
+    displayProducts(); // Refresh the products display
+    event.target.reset();
+    showAddProductForm();
+}
+
+function displayProducts() {
+    const products = JSON.parse(localStorage.getItem('products') || '[]');
+    const tbody = document.getElementById('productsList');
+    if (!tbody) return; // Safety check
+
+    tbody.innerHTML = products.map(product => `
+        <tr>
+            <td>${product.id}</td>
+            <td>${product.name}</td>
+            <td>₹${product.price.toFixed(2)}</td>
+            <td><button class="delete-btn" onclick="deleteProduct('${product.id}')">Delete</button></td>
+        </tr>
+    `).join('');
+}
+
+function deleteProduct(id) {
+    if (confirm('Are you sure you want to delete this product?')) {
+        let products = JSON.parse(localStorage.getItem('products') || '[]');
+        products = products.filter(p => p.id !== id);
+        localStorage.setItem('products', JSON.stringify(products));
+        displayProducts(); // Refresh the display
+    }
+}
+
+function displayOrders() {
+    const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+    const tbody = document.getElementById('ordersList');
+    if (!tbody) return; // Safety check
+
+    tbody.innerHTML = orders.map(order => `
+        <tr>
+            <td>${order.orderId}</td>
+            <td>${order.customerName}</td>
+            <td>${order.items.map(item => `${item.name} (${item.quantity})`).join(', ')}</td>
+            <td>₹${order.total.toFixed(2)}</td>
+            <td>${order.contact}</td>
+        </tr>
+    `).join('');
+}
+
+function displayCustomers() {
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const tbody = document.getElementById('customersList');
+    if (!tbody) return; // Safety check
+
+    tbody.innerHTML = users.map(user => `
+        <tr>
+            <td>${user.customerId}</td>
+            <td>${user.name}</td>
+            <td>${user.email}</td>
+            <td>${user.contact}</td>
+            <td><button class="delete-btn" onclick="deleteCustomer('${user.customerId}')">Delete</button></td>
+        </tr>
+    `).join('');
+}
+
+function deleteCustomer(id) {
+    if (confirm('Are you sure you want to delete this customer?')) {
+        let users = JSON.parse(localStorage.getItem('users') || '[]');
+        users = users.filter(u => u.customerId !== id);
+        localStorage.setItem('users', JSON.stringify(users));
+        displayCustomers(); // Refresh the customers display
+        updateDashboard(); // Update dashboard numbers
+    }
+}
+
+function searchProducts(query) {
+    const products = JSON.parse(localStorage.getItem('products') || '[]');
+    const filtered = products.filter(p => 
+        p.name.toLowerCase().includes(query.toLowerCase()) ||
+        p.id.toLowerCase().includes(query.toLowerCase())
+    );
+    const tbody = document.getElementById('productsList');
+    tbody.innerHTML = filtered.map(product => `
+        <tr>
+            <td>${product.id}</td>
+            <td>${product.name}</td>
+            <td>₹${product.price.toFixed(2)}</td>
+            <td><button class="delete-btn" onclick="deleteProduct('${product.id}')">Delete</button></td>
+        </tr>
+    `).join('');
+}
+
+function searchOrders(query) {
+    const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+    const filtered = orders.filter(o => 
+        o.orderId.toLowerCase().includes(query.toLowerCase()) ||
+        o.customerName.toLowerCase().includes(query.toLowerCase())
+    );
+    const tbody = document.getElementById('ordersList');
+    tbody.innerHTML = filtered.map(order => `
+        <tr>
+            <td>${order.orderId}</td>
+            <td>${order.customerName}</td>
+            <td>${order.items.map(item => `${item.name} (${item.quantity})`).join(', ')}</td>
+            <td>₹${order.total.toFixed(2)}</td>
+            <td>${order.contact}</td>
+        </tr>
+    `).join('');
+}
+
+function searchCustomers(query) {
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const filtered = users.filter(u => 
+        u.name.toLowerCase().includes(query.toLowerCase()) ||
+        u.email.toLowerCase().includes(query.toLowerCase()) ||
+        u.customerId.toLowerCase().includes(query.toLowerCase())
+    );
+    const tbody = document.getElementById('customersList');
+    tbody.innerHTML = filtered.map(user => `
+        <tr>
+            <td>${user.customerId}</td>
+            <td>${user.name}</td>
+            <td>${user.email}</td>
+            <td>${user.contact}</td>
+            <td><button class="delete-btn" onclick="deleteCustomer('${user.customerId}')">Delete</button></td>
+        </tr>
+    `).join('');
 }
 
 displayItems();

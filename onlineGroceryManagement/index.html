@@ -6,6 +6,7 @@
     <title>Online Grocery</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <!-- Login and Registration Page -->
@@ -25,7 +26,8 @@
                 <form id="login-form">
                     <input type="text" id="login-email" placeholder="email"/>
                     <input type="password" id="login-password" placeholder="password"/>
-                    <button type="submit">login</button>
+                    <button type="submit" class="user-login">User Login</button>
+                    <button type="button" class="admin-login" onclick="adminLogin()">Admin Login</button>
                     <p class="message">Not registered? <a href="#" id="showRegister">Create an account</a></p>
                 </form>
             </div>
@@ -78,9 +80,124 @@
             </table>
             <div class="cart-summary">
                 <h3>Cart Summary</h3>
-                <p>Total Amount: $<span id="totalAmount">0</span></p>
+                <p>Total Amount: Rs<span id="totalAmount">0</span></p>
                 <button class="checkout-btn" onclick="checkout()">Checkout</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Add Admin Panel -->
+    <div class="admin-panel" id="adminPanel" style="display: none;">
+        <div class="navbar">
+            <div class="nav-left">
+                <a onclick="showAdminTab('dashboard')">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </a>
+                <a onclick="showAdminTab('products')">
+                    <i class="fas fa-box"></i> Products
+                </a>
+                <a onclick="showAdminTab('orders')">
+                    <i class="fas fa-shopping-bag"></i> Orders
+                </a>
+                <a onclick="showAdminTab('customers')">
+                    <i class="fas fa-users"></i> Customers
+                </a>
+            </div>
+            <div class="nav-right">
+                <button class="logout-btn" onclick="adminLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard -->
+        <div id="adminDashboard" class="admin-tab">
+            <div class="dashboard-cards">
+                <div class="card">
+                    <i class="fas fa-shopping-cart card-icon"></i>
+                    <h3>Total Orders</h3>
+                    <p id="totalOrders">0</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-rupee-sign card-icon"></i>
+                    <h3>Total Sales</h3>
+                    <p>₹<span id="totalSales">0</span></p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-users card-icon"></i>
+                    <h3>Total Customers</h3>
+                    <p id="totalCustomers">0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Tab -->
+        <div id="adminProducts" class="admin-tab" style="display: none;">
+            <div class="admin-controls">
+                <button onclick="showAddProductForm()">Add New Product</button>
+                <input type="text" placeholder="Search products..." onkeyup="searchProducts(this.value)">
+            </div>
+            
+            <!-- Add Product Form -->
+            <div id="addProductForm" style="display: none;">
+                <form onsubmit="addProduct(event)">
+                    <input type="text" id="productName" placeholder="Product Name" required>
+                    <input type="number" id="productPrice" placeholder="Price" required>
+                    <input type="url" id="productImage" placeholder="Image URL" required>
+                    <button type="submit">Add Product</button>
+                </form>
+            </div>
+
+            <!-- Products Table -->
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="productsList"></tbody>
+            </table>
+        </div>
+
+        <!-- Orders Tab -->
+        <div id="adminOrders" class="admin-tab" style="display: none;">
+            <div class="admin-controls">
+                <input type="text" placeholder="Search orders..." onkeyup="searchOrders(this.value)">
+            </div>
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Products</th>
+                        <th>Total</th>
+                        <th>Contact</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersList"></tbody>
+            </table>
+        </div>
+
+        <!-- Customers Tab -->
+        <div id="adminCustomers" class="admin-tab" style="display: none;">
+            <div class="admin-controls">
+                <input type="text" placeholder="Search customers..." onkeyup="searchCustomers(this.value)">
+            </div>
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Customer ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Contact</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="customersList"></tbody>
+            </table>
         </div>
     </div>
 
