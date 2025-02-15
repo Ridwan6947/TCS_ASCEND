@@ -26,6 +26,7 @@ public class reportManagement {
         System.out.println(thirdLowestPrice.getName());
         System.out.println(thirdLowestPrice.getPrice());
         System.out.println(thirdLowestPrice.getLab());
+        sc.close();
     }
     public static int countReportByLab(Report report[] , String target){
         int count = 0;
