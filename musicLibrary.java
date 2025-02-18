@@ -46,10 +46,12 @@ public class musicLibrary {
     public static List<String> getAlbumsByYear(Artist arr[] , int idToFind , int start , int end){
         List<String> ans = new ArrayList<>();
         for(int i = 0 ; i < arr.length ; i++){
-            if(arr[i].getId() == idToFind){
-                for(Album a : arr[i].getAlbums()){
-                    if(a.getYear() >= start && a.getYear() <= end){
-                        ans.add(a.getAname());
+            if(arr[i] != null){
+                if(arr[i].getId() == idToFind){
+                    for(Album a : arr[i].getAlbums()){
+                        if(a.getYear() >= start && a.getYear() <= end){
+                            ans.add(a.getAname());
+                        }
                     }
                 }
             }

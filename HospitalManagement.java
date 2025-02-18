@@ -77,7 +77,6 @@ public class HospitalManagement{
         String specToFind = sc.nextLine();
         TreeSet<String> ans = getUniqueIllness(doctors , doctorID);
         List<String> res = getDoctorBySpec(doctors , specToFind);
-        System.out.println("_______________________________");
         for(String res1 : ans ){
             System.out.println(res1);
         }
