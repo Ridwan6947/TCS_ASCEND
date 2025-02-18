@@ -7,8 +7,16 @@ public class duplicate {
         for(int i = 0 ; i < arr.length ; i++){
             map.put(arr[i] , map.getOrDefault(arr[i] , 0 )+1);
         }
+        ArrayList<Integer> list = new ArrayList<>();
         for(Map.Entry<Integer,Integer> entry : map.entrySet()){
-            System.out.println(entry.getKey() + " " + entry.getValue());
+            //System.out.println(entry.getKey() + " " + entry.getValue());
+            if(entry.getValue() > 1){
+                list.add(entry.getKey());
+            }
+        }
+        Iterator it = list.iterator();
+        while(it.hasNext()){
+            System.out.println(it.next());
         }
     }
 }
